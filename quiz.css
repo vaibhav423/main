@@ -159,14 +159,13 @@ body {
     border: 1px solid rgba(255,255,255,0.03);
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.12s ease, transform 0.12s ease, box-shadow 0.12s ease;
+    transition: background-color 0.12s ease, box-shadow 0.12s ease;
     font-weight: 600;
     box-shadow: 0 6px 16px rgba(3,6,12,0.45);
 }
 
 .nav-btn:hover:not(:disabled) {
     background: linear-gradient(180deg, rgba(8,24,40,0.9), rgba(10,28,44,0.98));
-    transform: translateY(-1px);
     box-shadow: 0 8px 22px rgba(15,23,42,0.08);
 }
 
@@ -292,7 +291,7 @@ body {
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
     text-decoration: none;
     display: inline-block;
     text-align: center;
@@ -302,7 +301,6 @@ body {
 }
 
 .btn:hover {
-    transform: translateY(-1px);
     box-shadow: 0 10px 24px rgba(59,130,246,0.08);
 }
 
@@ -548,11 +546,9 @@ body {
     
     .mobile-banner-btn:hover {
         background: rgba(96,165,250,0.25);
-        transform: translateY(-1px);
     }
     
     .mobile-banner-btn:active {
-        transform: scale(0.98);
         background: rgba(96,165,250,0.3);
     }
     
@@ -693,9 +689,6 @@ body {
         transition: all 0.2s ease;
     }
     
-    .nav-btn:active {
-        transform: scale(0.98);
-    }
     
     #question-counter {
         font-size: 0.9rem;
@@ -736,9 +729,6 @@ body {
         -webkit-tap-highlight-color: transparent;
     }
     
-    .option:active {
-        transform: scale(0.98);
-    }
     
     .option-identifier {
         width: 28px;
@@ -772,9 +762,6 @@ body {
         -webkit-tap-highlight-color: transparent;
     }
     
-    .btn:active {
-        transform: scale(0.98);
-    }
     
     .submit-btn {
         grid-column: 1 / -1; /* Submit button spans full width */

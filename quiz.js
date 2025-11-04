@@ -812,7 +812,8 @@ class EnhancedQuizApp {
             this.showExplanationBtn.textContent = 'Hide Answer & Explanation';
             
             this.renderMath();
-            this.explanation.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Remove auto-scrolling that interferes with mobile scroll momentum
+            // this.explanation.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }
 
@@ -941,10 +942,11 @@ class EnhancedQuizApp {
             this.questionGrid.appendChild(questionItem);
         });
 
-        const currentEl = this.questionGrid.querySelector('.question-item.current');
-        if (currentEl) {
-            currentEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
+        // Remove auto-scrolling that interferes with mobile scroll momentum
+        // const currentEl = this.questionGrid.querySelector('.question-item.current');
+        // if (currentEl) {
+        //     currentEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        // }
     }
 
     async jumpToNextUnattempted() {
@@ -1127,18 +1129,18 @@ class EnhancedQuizApp {
             }, 300);
         }
         
-        // Scroll current question into view on mobile
-        if (isMobile && this.questions.length > 0) {
-            const questionContent = document.querySelector('.question-content');
-            if (questionContent) {
-                setTimeout(() => {
-                    questionContent.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'start' 
-                    });
-                }, 100);
-            }
-        }
+        // Remove auto-scrolling that interferes with mobile scroll momentum
+        // if (isMobile && this.questions.length > 0) {
+        //     const questionContent = document.querySelector('.question-content');
+        //     if (questionContent) {
+        //         setTimeout(() => {
+        //             questionContent.scrollIntoView({ 
+        //                 behavior: 'smooth', 
+        //                 block: 'start' 
+        //             });
+        //         }, 100);
+        //     }
+        // }
         
         // Update question overview layout
         this.updateQuestionOverview();
@@ -1328,13 +1330,13 @@ class EnhancedQuizApp {
                 console.log('Added active class to button');
             }
 
-            // Scroll to the section smoothly
-            setTimeout(() => {
-                targetSection.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'start' 
-                });
-            }, 100);
+            // Remove auto-scrolling that interferes with mobile scroll momentum
+            // setTimeout(() => {
+            //     targetSection.scrollIntoView({ 
+            //         behavior: 'smooth', 
+            //         block: 'start' 
+            //     });
+            // }, 100);
         } else {
             console.log(`Target section for ${section} not found!`);
         }
