@@ -9,11 +9,10 @@ body {
     background-color: #071226 !important;
     color: #000 !important;
     line-height: 1.6;
-    /* Fix mobile elastic scrolling / bounce effect */
-    overscroll-behavior: none;
-    overscroll-behavior-y: none;
-    -webkit-overflow-scrolling: touch;
+    /* Mobile scroll fixes are now handled by JavaScript */
     position: relative;
+    /* Prevent default pull-to-refresh behavior */
+    overflow-x: hidden;
 }
 
 .container {
@@ -21,9 +20,9 @@ body {
     margin: 0 auto;
     padding: 20px;
     background: transparent;
-    /* Additional scroll control for mobile */
-    overscroll-behavior: none;
-    overscroll-behavior-y: none;
+    /* Container-specific mobile optimizations */
+    width: 100%;
+    min-height: 100vh;
 }
 
 .header {
@@ -530,6 +529,8 @@ body {
         overscroll-behavior: none;
         overscroll-behavior-y: none;
         touch-action: pan-y;
+        /* Add top padding to account for fixed mobile banner */
+        padding-top: 60px;
     }
     
     .header {
@@ -546,10 +547,15 @@ body {
         box-shadow: 0 2px 8px rgba(3,6,12,0.4);
         border: 1px solid rgba(255,255,255,0.05);
         gap: 8px;
-        position: sticky;
+        /* Fixed positioning to prevent scroll conflicts */
+        position: fixed;
         top: 0;
+        left: 4px;
+        right: 4px;
         z-index: 100;
         flex-direction: row;
+        /* Prevent banner from interfering with scroll */
+        pointer-events: auto;
     }
     
     .mobile-banner-btn {

@@ -1124,6 +1124,9 @@ class EnhancedQuizApp {
         let touchEndY = 0;
         let isSwiping = false;
 
+        // Comprehensive mobile scroll bounce prevention
+        this.setupScrollBounceePrevention();
+
         // Handle touch start
         this.quizContainer.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
@@ -1173,6 +1176,144 @@ class EnhancedQuizApp {
 
         // Add visual feedback for touch interactions
         this.addTouchFeedback();
+    }
+
+    setupScrollBounceePrevention() {
+        // Prevent elastic scrolling and fix multiple scroll issues
+        let isScrolling = false;
+        let scrollTimeout;
+        
+        // Function to prevent scroll beyond boundaries
+        const preventScrollBeyondBounds = (e) => {
+            const element = e.target;
+            const scrollTop = element.scrollTop;
+            const scrollHeight = element.scrollHeight;
+            const clientHeight = element.clientHeight;
+            
+            // At top boundary
+            if (scrollTop <= 0) {
+                element.scrollTop = 1; // Prevent bounce by staying just above 0
+                e.preventDefault();
+                return false;
+            }
+            
+            // At bottom boundary  
+            if (scrollTop + clientHeight >= scrollHeight) {
+                element.scrollTop = scrollHeight - clientHeight - 1; // Stay just above bottom
+                e.preventDefault();
+                return false;
+            }
+            
+            return true;
+        };
+
+        // Handle document scroll events
+        const handleDocumentScroll = (e) => {
+            if (window.innerWidth <= 768) { // Mobile only
+                const body = document.body;
+                const documentElement = document.documentElement;
+                const scrollTop = window.pageYOffset || documentElement.scrollTop || body.scrollTop;
+                const scrollHeight = Math.max(body.scrollHeight, documentElement.scrollHeight);
+                const clientHeight = window.innerHeight;
+                
+                // Prevent scroll bounce at boundaries
+                if (scrollTop <= 0) {
+                    window.scrollTo(0, 1);
+                    e.preventDefault();
+                    return false;
+                }
+                
+                if (scrollTop + clientHeight >= scrollHeight - 10) {
+                    window.scrollTo(0, scrollHeight - clientHeight - 1);
+                    e.preventDefault();
+                    return false;
+                }
+            }
+        };
+
+        // Handle touch move events to prevent elastic scrolling
+        const handleTouchMove = (e) => {
+            if (window.innerWidth <= 768) { // Mobile only
+                const touch = e.touches[0];
+                const target = e.target;
+                
+                // Check if we're at scroll boundaries
+                const body = document.body;
+                const documentElement = document.documentElement;
+                const scrollTop = window.pageYOffset || documentElement.scrollTop || body.scrollTop;
+                const scrollHeight = Math.max(body.scrollHeight, documentElement.scrollHeight);
+                const clientHeight = window.innerHeight;
+                
+                // If at top or bottom, prevent default touch behavior
+                if ((scrollTop <= 1 && e.touches[0].clientY > e.touches[0].clientY) || 
+                    (scrollTop + clientHeight >= scrollHeight - 10 && e.touches[0].clientY < e.touches[0].clientY)) {
+                    e.preventDefault();
+                    return false;
+                }
+            }
+        };
+
+        // Comprehensive scroll event handling
+        const throttledScrollHandler = this.throttle(handleDocumentScroll, 16);
+        const throttledTouchHandler = this.throttle(handleTouchMove, 16);
+
+        // Add event listeners
+        document.addEventListener('scroll', throttledScrollHandler, { passive: false });
+        document.addEventListener('touchmove', throttledTouchHandler, { passive: false });
+        document.addEventListener('wheel', throttledScrollHandler, { passive: false });
+
+        // Handle momentum scrolling on iOS
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+            let lastTouchY = 0;
+            
+            document.addEventListener('touchstart', (e) => {
+                lastTouchY = e.touches[0].clientY;
+            }, { passive: true });
+            
+            document.addEventListener('touchmove', (e) => {
+                const touchY = e.touches[0].clientY;
+                const scrollTop = window.pageYOffset;
+                const scrollHeight = document.body.scrollHeight;
+                const clientHeight = window.innerHeight;
+                
+                // Prevent pull-to-refresh and bottom bounce
+                if ((scrollTop <= 0 && touchY > lastTouchY) || 
+                    (scrollTop + clientHeight >= scrollHeight && touchY < lastTouchY)) {
+                    e.preventDefault();
+                }
+                
+                lastTouchY = touchY;
+            }, { passive: false });
+        }
+
+        // Force scroll position correction periodically
+        setInterval(() => {
+            if (window.innerWidth <= 768) {
+                const scrollTop = window.pageYOffset;
+                const scrollHeight = document.body.scrollHeight;
+                const clientHeight = window.innerHeight;
+                
+                if (scrollTop < 0) {
+                    window.scrollTo(0, 0);
+                } else if (scrollTop + clientHeight > scrollHeight) {
+                    window.scrollTo(0, scrollHeight - clientHeight);
+                }
+            }
+        }, 100);
+    }
+
+    // Utility function for throttling
+    throttle(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        }
     }
 
     addTouchFeedback() {
