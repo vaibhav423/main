@@ -9,9 +9,6 @@ body {
     background-color: #071226 !important;
     color: #000 !important;
     line-height: 1.6;
-    /* Mobile scroll fixes are now handled by JavaScript */
-    position: relative;
-    /* Prevent default pull-to-refresh behavior */
     overflow-x: hidden;
 }
 
@@ -506,31 +503,10 @@ body {
 
 /* Mobile-first responsive design */
 @media (max-width: 480px) {
-    /* Additional mobile scroll control */
-    html {
-        overscroll-behavior: none;
-        overscroll-behavior-y: none;
-        -webkit-overflow-scrolling: touch;
-        touch-action: pan-y;
-        height: 100%;
-    }
-    
-    body {
-        overscroll-behavior: none;
-        overscroll-behavior-y: none;
-        touch-action: pan-y;
-        height: 100%;
-    }
-    
     .container {
         padding: 4px;
         max-width: 100%;
-        /* Prevent elastic scrolling on container */
-        overscroll-behavior: none;
-        overscroll-behavior-y: none;
-        touch-action: pan-y;
-        /* Add top padding to account for fixed mobile banner */
-        padding-top: 60px;
+        padding-top: 20px;
     }
     
     .header {
@@ -547,15 +523,7 @@ body {
         box-shadow: 0 2px 8px rgba(3,6,12,0.4);
         border: 1px solid rgba(255,255,255,0.05);
         gap: 8px;
-        /* Fixed positioning to prevent scroll conflicts */
-        position: fixed;
-        top: 0;
-        left: 4px;
-        right: 4px;
-        z-index: 100;
         flex-direction: row;
-        /* Prevent banner from interfering with scroll */
-        pointer-events: auto;
     }
     
     .mobile-banner-btn {
@@ -1113,18 +1081,6 @@ body.keyboard-open .quiz-container {
     overflow-y: auto;
 }
 
-/* Touch feedback animations */
-@keyframes touchFeedback {
-    0% { transform: scale(1); }
-    50% { transform: scale(0.95); }
-    100% { transform: scale(1); }
-}
-
-.option.touch-active,
-.btn.touch-active,
-.nav-btn.touch-active {
-    animation: touchFeedback 0.2s ease;
-}
 
 /* Improved touch targets for mobile */
 @media (max-width: 768px) {
@@ -1185,15 +1141,6 @@ body.keyboard-open .quiz-container {
     }
 }
 
-/* Swipe gesture visual feedback */
-
-.quiz-container.swipe-left {
-    transform: translateX(-10px);
-}
-
-.quiz-container.swipe-right {
-    transform: translateX(10px);
-}
 
 /* Enhanced mobile question overview */
 @media (max-width: 480px) {
