@@ -9,6 +9,11 @@ body {
     background-color: #071226 !important;
     color: #000 !important;
     line-height: 1.6;
+    /* Fix mobile elastic scrolling / bounce effect */
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
 }
 
 .container {
@@ -16,6 +21,9 @@ body {
     margin: 0 auto;
     padding: 20px;
     background: transparent;
+    /* Additional scroll control for mobile */
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
 }
 
 .header {
@@ -499,9 +507,29 @@ body {
 
 /* Mobile-first responsive design */
 @media (max-width: 480px) {
+    /* Additional mobile scroll control */
+    html {
+        overscroll-behavior: none;
+        overscroll-behavior-y: none;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
+        height: 100%;
+    }
+    
+    body {
+        overscroll-behavior: none;
+        overscroll-behavior-y: none;
+        touch-action: pan-y;
+        height: 100%;
+    }
+    
     .container {
         padding: 4px;
         max-width: 100%;
+        /* Prevent elastic scrolling on container */
+        overscroll-behavior: none;
+        overscroll-behavior-y: none;
+        touch-action: pan-y;
     }
     
     .header {
